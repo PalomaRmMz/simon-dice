@@ -14,13 +14,27 @@ $levelText.innerHTML = "--";
 class Game {
   constructor() {
     this.init();
+    this.generateSequence();
   }
   init() {
     $ledText.innerHTML = "Simón dice...";
     $pointText.innerHTML = "1 pt";
     $levelText.innerHTML = "1 lvl";
+    this.level = 1;
+    this.sections = {
+      $red,
+      $blue,
+      $yellow,
+      $green,
+    };
+  }
+  generateSequence() {
+    this.sequence = new Array(10)
+      .fill(0)
+      .map((n) => Math.floor(Math.random(0) * 4));
   }
 }
 function playGame() {
-  let game = new Game();
+  //   let game = new Game();
+  window.game = new Game();
 }
