@@ -133,6 +133,10 @@ body {
     opacity: .6;
 }
 
+.section-selected {
+    opacity: .6;
+}
+
 .section.red {
     background: linear-gradient(-45deg, #ff0000, #d10000, #ffffff);
     border-radius: 100% 0 0 0;
