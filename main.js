@@ -20,6 +20,7 @@ class Game {
 
   //inicializar
   init() {
+    this.selectedSection = this.selectedSection.bind(this);
     $ledText.innerHTML = "Simón dice...";
     $pointText.innerHTML = "1 pt";
     $levelText.innerHTML = "1 lvl";
@@ -45,6 +46,8 @@ class Game {
   nextLevel() {
     //iluminarSecuencia
     this.selectSection();
+    // this.agregarEventosClick();
+    this.addEventsClick();
   }
 
   //transformarNumeroAColor(numero)
@@ -88,6 +91,18 @@ class Game {
   //apagarColor(color)
   quitSelected(section) {
     this.sections[section].classList.remove("section-selected");
+  }
+  addEventsClick() {
+    //this.colores
+    // this.sections.red.addEventListener('click'.this.elegirColor)
+    this.sections.red.addEventListener("click", this.selectedSection);
+    this.sections.blue.addEventListener("click", this.selectedSection);
+    this.sections.yellow.addEventListener("click", this.selectedSection);
+    this.sections.green.addEventListener("click", this.selectedSection);
+  }
+  //   elegirColor
+  selectedSection(ev) {
+    console.log(this);
   }
 }
 function playGame() {
