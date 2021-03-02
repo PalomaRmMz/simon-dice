@@ -18,16 +18,19 @@ class Game {
   constructor() {
     this.init(); //inicializar
     this.generateSequence(); //generarSecuencia
-    this.nextLevel(); //siguienteNivel
+    //this.siguienteNivel
+    setTimeout(this.nextLevel, 800);
   }
 
   //inicializar
   init() {
+    this.nextLevel = this.nextLevel.bind(this);
     this.selectedSection = this.selectedSection.bind(this);
     $ledText.innerHTML = "Simón dice...";
     $pointText.innerHTML = "1 pt";
     $levelText.innerHTML = "1 lvl";
     this.level = 1;
+    console.log("nivel: ", this.level);
 
     //this.colores
     this.sections = {
@@ -90,7 +93,7 @@ class Game {
 
       //iluminarColor(color)
       setTimeout(() => {
-        console.log(section);
+        console.log("simon color: " + section);
         this.focusSection(section);
       }, 1000 * i);
       //    setTimeout(() => this.focusSection(section), 1000 * i)
@@ -118,28 +121,41 @@ class Game {
     this.sections.yellow.addEventListener("click", this.selectedSection);
     this.sections.green.addEventListener("click", this.selectedSection);
   }
+  deleteEventClick() {
+    // this.sections.red.addEventListener('click'.this.elegirColor)
+    this.sections.red.removeEventListener("click", this.selectedSection);
+    this.sections.blue.removeEventListener("click", this.selectedSection);
+    this.sections.yellow.removeEventListener("click", this.selectedSection);
+    this.sections.green.removeEventListener("click", this.selectedSection);
+  }
   //   elegirColor
   selectedSection(ev) {
     const nameColor = ev.target.dataset.color;
     const numberColor = this.transformColorToNumber(nameColor);
     // console.log(this);
-    console.log(ev.target.dataset.color);
-    console.log(nameColor);
+    // console.log(ev.target.dataset.color);
+    console.log("color user: " + nameColor);
     this.focusSection(nameColor);
     if (numberColor === this.sequence[this.subLevel]) {
       this.subLevel++;
       if (this.subLevel === this.level) {
         this.level++;
         // this.eliminarEventosClick();
-        // this.deleteEventClick();
+        this.deleteEventClick();
         if (this.level === this.lefelFinis + 1) {
           //Gano!
+        } else {
+          setTimeout(this.nextLevel, 1000);
+          // this.nextLevel();
         }
       }
+    } else {
+      //perdio
     }
   }
 }
 function playGame() {
   //   let game = new Game();
   window.game = new Game();
+  console.log("clicked play");
 }
