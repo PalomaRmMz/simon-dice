@@ -4,6 +4,9 @@ const yellow = document.getElementById("yellow");
 const green = document.getElementById("green");
 const btnPlay = document.getElementById("btn-play");
 
+// const ULTIMO_NIVEL = 10;
+const lefelFinis = 10;
+
 $ledText = document.getElementById("led-text");
 $ledText.innerHTML = "--------";
 $pointText = document.getElementById("point-text");
@@ -44,6 +47,8 @@ class Game {
 
   //siguienteNivel
   nextLevel() {
+    // this.subnivel = 0;
+    this.subLevel = 0;
     //iluminarSecuencia
     this.selectSection();
     // this.agregarEventosClick();
@@ -63,7 +68,20 @@ class Game {
         return "green";
     }
   }
-
+  //   transformColorToNumber(color) {
+  //   switch (color) {
+  transformColorToNumber(section) {
+    switch (section) {
+      case "red":
+        return 0;
+      case "blue":
+        return 1;
+      case "yellow":
+        return 2;
+      case "green":
+        return 3;
+    }
+  }
   //iluminarSecuencia
   selectSection() {
     for (let i = 0; i < this.level; i++) {
@@ -102,7 +120,23 @@ class Game {
   }
   //   elegirColor
   selectedSection(ev) {
-    console.log(this);
+    const nameColor = ev.target.dataset.color;
+    const numberColor = this.transformColorToNumber(nameColor);
+    // console.log(this);
+    console.log(ev.target.dataset.color);
+    console.log(nameColor);
+    this.focusSection(nameColor);
+    if (numberColor === this.sequence[this.subLevel]) {
+      this.subLevel++;
+      if (this.subLevel === this.level) {
+        this.level++;
+        // this.eliminarEventosClick();
+        // this.deleteEventClick();
+        if (this.level === this.lefelFinis + 1) {
+          //Gano!
+        }
+      }
+    }
   }
 }
 function playGame() {
