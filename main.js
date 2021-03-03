@@ -2,13 +2,12 @@ const red = document.getElementById("red"),
   blue = document.getElementById("blue"),
   yellow = document.getElementById("yellow"),
   green = document.getElementById("green"),
-  btnPlay = document.getElementById("btn-play");
-
-const levelFinish = 10;
-
-const ledText = document.getElementById("led-text"),
+  btnPlay = document.getElementById("btn-play"),
+  ledText = document.getElementById("led-text"),
   pointText = document.getElementById("point-text"),
   levelText = document.getElementById("level-text");
+
+const levelFinish = 10;
 
 ledText.innerHTML = "--------";
 pointText.innerHTML = "--";
@@ -35,8 +34,6 @@ class Game {
     ledText.innerHTML = "Simón dice...";
     pointText.innerHTML = "1 pts";
     levelText.innerHTML = "1 lvl";
-
-    console.log("*Init*\nPuntos: 1\nLevel: 1");
   }
 
   generateSequence() {
@@ -82,19 +79,10 @@ class Game {
     pointText.innerHTML = this.point + " pts";
     levelText.innerHTML = this.level + " lvl";
 
-    console.log(
-      "* Simon Color *\nPuntos: ",
-      this.point,
-      "\nLevel: ",
-      this.level
-    );
-
     setTimeout(() => {
       ledText.innerHTML = "¡Tu Turno!";
       pointText.innerHTML = this.point + " pts";
       levelText.innerHTML = this.level + " lvl";
-
-      console.log("*¡Tu Turno!*");
     }, 1500);
 
     for (let i = 0; i < this.level; i++) {
@@ -139,16 +127,9 @@ class Game {
       if (this.subLevel === this.level) {
         this.level++;
         this.point++;
-
-        ledText.innerHTML = "¡Perfecto!";
-        console.log(
-          "¡Perfecto!\n*Verify*\nPuntos: ",
-          this.point,
-          "\nLevel: ",
-          this.level
-        );
-
         this.deleteEventClick();
+        ledText.innerHTML = "¡Perfecto!";
+
         if (this.level === this.levelFinish + 1) {
           //Gano!
         } else {
@@ -163,6 +144,6 @@ class Game {
 }
 function playGame() {
   //   let game = new Game();
-  window.game = new Game();
   console.log("clicked play");
+  window.game = new Game();
 }
