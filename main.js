@@ -8,7 +8,6 @@ const red = document.getElementById("red"),
   levelText = document.getElementById("level-text");
 
 const levelFinish = 3;
-// this.levelFinish = 3;
 ledText.innerHTML = "--------";
 pointText.innerHTML = "--";
 levelText.innerHTML = "--";
@@ -133,10 +132,6 @@ class Game {
         ledText.innerHTML = "¡Perfecto!";
 
         if (this.level === levelFinish + 1) {
-          //Gano!
-          ledText.innerHTML = "¡Ganaste!";
-          pointText.innerHTML = "--";
-          levelText.innerHTML = "--";
         } else {
           setTimeout(this.nextLevel, 1000);
         }
@@ -145,9 +140,21 @@ class Game {
       ledText.innerHTML = "¡Perdiste!";
       this.level = 1;
       this.point = 1;
-          pointText.innerHTML = "--";
-          levelText.innerHTML = "--";
+      pointText.innerHTML = "--";
+      levelText.innerHTML = "--";
     }
+  }
+  winGame() {
+    ledText.innerHTML = "¡Ganaste!";
+    pointText.innerHTML = "--";
+    levelText.innerHTML = "--";
+    this.init();
+  }
+  loseGame() {
+    ledText.innerHTML = "¡Perdiste!";
+    pointText.innerHTML = "--";
+    levelText.innerHTML = "--";
+    this.init();
   }
 }
 
