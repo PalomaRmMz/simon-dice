@@ -7,8 +7,8 @@ const red = document.getElementById("red"),
   pointText = document.getElementById("point-text"),
   levelText = document.getElementById("level-text");
 
-const levelFinish = 10;
-
+const levelFinish = 3;
+// this.levelFinish = 3;
 ledText.innerHTML = "--------";
 pointText.innerHTML = "--";
 levelText.innerHTML = "--";
@@ -103,12 +103,14 @@ class Game {
   quitSelected(section) {
     this.sections[section].classList.remove("section-selected");
   }
+
   addEventsClick() {
     this.sections.red.addEventListener("click", this.selectedSection);
     this.sections.blue.addEventListener("click", this.selectedSection);
     this.sections.yellow.addEventListener("click", this.selectedSection);
     this.sections.green.addEventListener("click", this.selectedSection);
   }
+
   deleteEventClick() {
     this.sections.red.removeEventListener("click", this.selectedSection);
     this.sections.blue.removeEventListener("click", this.selectedSection);
@@ -130,18 +132,25 @@ class Game {
         this.deleteEventClick();
         ledText.innerHTML = "¡Perfecto!";
 
-        if (this.level === this.levelFinish + 1) {
+        if (this.level === levelFinish + 1) {
           //Gano!
+          ledText.innerHTML = "¡Ganaste!";
+          pointText.innerHTML = "--";
+          levelText.innerHTML = "--";
         } else {
           setTimeout(this.nextLevel, 1000);
-          // this.nextLevel();
         }
       }
     } else {
-      //perdio
+      ledText.innerHTML = "¡Perdiste!";
+      this.level = 1;
+      this.point = 1;
+          pointText.innerHTML = "--";
+          levelText.innerHTML = "--";
     }
   }
 }
+
 function playGame() {
   //   let game = new Game();
   console.log("clicked play");

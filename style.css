@@ -129,7 +129,7 @@ body {
     cursor: pointer;
 }
 
-.section:hover {
+.section:active {
     opacity: .6;
 }
 
