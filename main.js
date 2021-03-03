@@ -1,64 +1,56 @@
-const red = document.getElementById("red");
-const blue = document.getElementById("blue");
-const yellow = document.getElementById("yellow");
-const green = document.getElementById("green");
-const btnPlay = document.getElementById("btn-play");
+const red = document.getElementById("red"),
+  blue = document.getElementById("blue"),
+  yellow = document.getElementById("yellow"),
+  green = document.getElementById("green"),
+  btnPlay = document.getElementById("btn-play");
 
-// const ULTIMO_NIVEL = 10;
-const lefelFinis = 10;
+const levelFinish = 10;
 
-$ledText = document.getElementById("led-text");
-$ledText.innerHTML = "--------";
-$pointText = document.getElementById("point-text");
-$pointText.innerHTML = "--";
-$levelText = document.getElementById("level-text");
-$levelText.innerHTML = "--";
+const ledText = document.getElementById("led-text"),
+  pointText = document.getElementById("point-text"),
+  levelText = document.getElementById("level-text");
+
+ledText.innerHTML = "--------";
+pointText.innerHTML = "--";
+levelText.innerHTML = "--";
 
 class Game {
   constructor() {
-    this.init(); //inicializar
-    this.generateSequence(); //generarSecuencia
-    //this.siguienteNivel
+    this.init();
+    this.generateSequence();
     setTimeout(this.nextLevel, 800);
   }
 
-  //inicializar
   init() {
     this.nextLevel = this.nextLevel.bind(this);
     this.selectedSection = this.selectedSection.bind(this);
-    $ledText.innerHTML = "Simón dice...";
-    $pointText.innerHTML = "1 pt";
-    $levelText.innerHTML = "1 lvl";
     this.level = 1;
-    console.log("nivel: ", this.level);
-
-    //this.colores
+    this.point = 1;
     this.sections = {
       red,
       blue,
       yellow,
       green,
     };
+    ledText.innerHTML = "Simón dice...";
+    pointText.innerHTML = "1 pts";
+    levelText.innerHTML = "1 lvl";
+
+    console.log("*Init*\nPuntos: 1\nLevel: 1");
   }
 
-  //generarSecuencia
   generateSequence() {
     this.sequence = new Array(10)
       .fill(0)
       .map((n) => Math.floor(Math.random(0) * 4));
   }
 
-  //siguienteNivel
   nextLevel() {
-    // this.subnivel = 0;
     this.subLevel = 0;
-    //iluminarSecuencia
     this.selectSection();
-    // this.agregarEventosClick();
     this.addEventsClick();
   }
 
-  //transformarNumeroAColor(numero)
   transformNumberToColor(number) {
     switch (number) {
       case 0:
@@ -71,8 +63,7 @@ class Game {
         return "green";
     }
   }
-  //   transformColorToNumber(color) {
-  //   switch (color) {
+
   transformColorToNumber(section) {
     switch (section) {
       case "red":
@@ -85,64 +76,80 @@ class Game {
         return 3;
     }
   }
-  //iluminarSecuencia
+
   selectSection() {
+    ledText.innerHTML = "Simón dice...";
+    pointText.innerHTML = this.point + " pts";
+    levelText.innerHTML = this.level + " lvl";
+
+    console.log(
+      "* Simon Color *\nPuntos: ",
+      this.point,
+      "\nLevel: ",
+      this.level
+    );
+
+    setTimeout(() => {
+      ledText.innerHTML = "¡Tu Turno!";
+      pointText.innerHTML = this.point + " pts";
+      levelText.innerHTML = this.level + " lvl";
+
+      console.log("*¡Tu Turno!*");
+    }, 1500);
+
     for (let i = 0; i < this.level; i++) {
-      //let color   = this.transformarNumeroAColor(this.secuencia[i])
       const section = this.transformNumberToColor(this.sequence[i]);
 
-      //iluminarColor(color)
       setTimeout(() => {
         console.log("simon color: " + section);
         this.focusSection(section);
       }, 1000 * i);
-      //    setTimeout(() => this.focusSection(section), 1000 * i)
     }
   }
 
-  //iluminarColor(color)
   focusSection(section) {
-    //this.colores(color)
     this.sections[section].classList.add("section-selected");
-
-    //  setTimeout(() = > this.apagarColor(color), 350)
     setTimeout(() => this.quitSelected(section), 350);
   }
 
-  //apagarColor(color)
   quitSelected(section) {
     this.sections[section].classList.remove("section-selected");
   }
   addEventsClick() {
-    //this.colores
-    // this.sections.red.addEventListener('click'.this.elegirColor)
     this.sections.red.addEventListener("click", this.selectedSection);
     this.sections.blue.addEventListener("click", this.selectedSection);
     this.sections.yellow.addEventListener("click", this.selectedSection);
     this.sections.green.addEventListener("click", this.selectedSection);
   }
   deleteEventClick() {
-    // this.sections.red.addEventListener('click'.this.elegirColor)
     this.sections.red.removeEventListener("click", this.selectedSection);
     this.sections.blue.removeEventListener("click", this.selectedSection);
     this.sections.yellow.removeEventListener("click", this.selectedSection);
     this.sections.green.removeEventListener("click", this.selectedSection);
   }
-  //   elegirColor
+
   selectedSection(ev) {
     const nameColor = ev.target.dataset.color;
     const numberColor = this.transformColorToNumber(nameColor);
-    // console.log(this);
-    // console.log(ev.target.dataset.color);
-    console.log("color user: " + nameColor);
+    // console.log("color user: " + nameColor);
     this.focusSection(nameColor);
     if (numberColor === this.sequence[this.subLevel]) {
       this.subLevel++;
+
       if (this.subLevel === this.level) {
         this.level++;
-        // this.eliminarEventosClick();
+        this.point++;
+
+        ledText.innerHTML = "¡Perfecto!";
+        console.log(
+          "¡Perfecto!\n*Verify*\nPuntos: ",
+          this.point,
+          "\nLevel: ",
+          this.level
+        );
+
         this.deleteEventClick();
-        if (this.level === this.lefelFinis + 1) {
+        if (this.level === this.levelFinish + 1) {
           //Gano!
         } else {
           setTimeout(this.nextLevel, 1000);
